@@ -3,16 +3,11 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
 
-public class DraggableMaterial : MonoBehaviour,
+public class SingleDraggable : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [Header("Correctness")]
-    public bool isCorrectMaterial;
-
-    [Header("Correct Slots")]
-    public RectTransform[] correctSlots;
-
-    public AudioClip clip;
+    [Header("Correct Drop Slot")]
+    public RectTransform correctSlot;
 
     private RectTransform rectTransform;
     private RectTransform startParent;
@@ -22,16 +17,17 @@ public class DraggableMaterial : MonoBehaviour,
     private Image image;
     private Color originalColor;
 
-    public bool isLocked;
+    private bool isLocked;
     public bool placedCorrectly { get; private set; }
-    public GameObject Draghand;
+    public GameObject lastHandDrag;
+    public GameObject lastDialogue;
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         startParent = rectTransform.parent as RectTransform;
         startAnchoredPos = rectTransform.anchoredPosition;
         canvas = GetComponentInParent<Canvas>();
-        Draghand.SetActive(false);
+
         image = GetComponent<Image>();
         originalColor = image.color;
     }
@@ -46,46 +42,39 @@ public class DraggableMaterial : MonoBehaviour,
     public void OnDrag(PointerEventData eventData)
     {
         if (isLocked) return;
-        Draghand.SetActive(false);
+        lastHandDrag.SetActive(false);
+        lastDialogue.SetActive(false);
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         if (isLocked) return;
-        AudioManager.instance.PlaySpecificClip(clip);
-        foreach (RectTransform slotTransform in correctSlots)
-        {
-            LeafSlot slot = slotTransform.GetComponent<LeafSlot>();
 
-            if (slot == null || slot.isOccupied)
-                continue;
+        SingleDropSlot slot = correctSlot.GetComponent<SingleDropSlot>();
 
-            if (RectTransformUtility.RectangleContainsScreenPoint(
-                slotTransform,
+        if (slot != null && !slot.isOccupied &&
+            RectTransformUtility.RectangleContainsScreenPoint(
+                correctSlot,
                 Input.mousePosition,
                 null))
-            {
-                if (isCorrectMaterial)
-                {
-                    StartCoroutine(BlinkGreenAndPlace(slotTransform, slot));
-                    return;
-                }
-            }
+        {
+            StartCoroutine(BlinkGreenAndPlace(slot));
         }
-      
-        // ❌ Wrong drop → blink first, then reset
-        StartCoroutine(BlinkRedAndReset());
+        else
+        {
+            StartCoroutine(BlinkRedAndReset());
+        }
     }
 
     // 🟢 Correct placement
-    IEnumerator BlinkGreenAndPlace(RectTransform slotTransform, LeafSlot slot)
+    IEnumerator BlinkGreenAndPlace(SingleDropSlot slot)
     {
         image.color = Color.green;
         yield return new WaitForSeconds(0.15f);
         image.color = originalColor;
 
-        rectTransform.SetParent(slotTransform, false);
+        rectTransform.SetParent(correctSlot, false);
         rectTransform.anchoredPosition = Vector2.zero;
         rectTransform.localScale = Vector3.one;
 

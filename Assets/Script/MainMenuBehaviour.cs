@@ -31,14 +31,29 @@
     [Header("Drag Level Properties")] [SerializeField]
     private GameObject dragLevel;
 
+    public GameObject DradIndicator;
+
     [SerializeField] private Transform oxygen, glucose, heat, water, co2, light;
     
     [Header("Video Level Properties")]
     [SerializeField] GameObject videoLevel;
 
+    [SerializeField] private Transform photosynthesis_Text;
     [SerializeField] private GameObject cloudGenerator;
     [SerializeField] private GameObject sunflower;
+    [SerializeField] public bool playSunAnim;
+    [SerializeField] private bool playAnimOnce;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private Transform lastSunRays;
 
+    [SerializeField] private Transform[] labels;
+    [SerializeField] private Transform[] labelsPlacement;
+    [SerializeField] GameObject lastDialogue;
+    [SerializeField] private TypewriterTMP typewriterTMP_Last;
+    [SerializeField] private GameObject lastHandDrag;
+
+    public bool labelPop;
+    
 
     private void Awake()
     {
@@ -54,7 +69,7 @@
         dialogue_Container.SetActive(false);
         continue_Button.transform.localScale = Vector3.zero;
         // Drag Level Start Here
-
+        DradIndicator.SetActive(false);
         dragLevel.transform.localScale = Vector3.zero;
         
         
@@ -70,8 +85,56 @@
         videoLevel.transform.localScale = Vector3.zero;
         cloudGenerator.SetActive(false);
         sunflower.SetActive(false);
+        foreach (Transform child in labels)
+        {
+            child.localScale = Vector3.zero;
+        }
+        foreach (Transform child in labelsPlacement)
+        {
+            child.localScale = Vector3.zero;
+        }
+        lastDialogue.SetActive(false);
+        lastHandDrag.SetActive(false);
     }
 
+    public void StartLabels()
+    {
+        StartCoroutine(LastLabelsDragger());
+    }
+    IEnumerator LastLabelsDragger()
+    { 
+        for (int i = 0; i < labels.Length; i++)
+        {
+            labels[i].DOScale(Vector3.one, .2f).SetEase(Ease.OutBack);
+            yield return new WaitForSeconds(.15f);
+        }
+
+        StartCoroutine(LastLabelsPlacer());
+
+    }
+    IEnumerator LastLabelsPlacer()
+    { 
+        for (int i = 0; i < labelsPlacement.Length; i++)
+        {
+            labelsPlacement[i].DOScale(Vector3.one, .2f).SetEase(Ease.OutBack);
+            yield return new WaitForSeconds(.15f);
+        }
+
+        LastDialogue();
+    }
+
+    public void LastDialogue()
+    {
+        lastDialogue.SetActive(true);
+        typewriterTMP_Last.TypeText("You sorted the reactants. Now drag each label to show how they move through the plant.",13f,
+            ()=>LastHandDrag());
+        AudioManager.instance.PlayLastDialogue();
+    }
+
+    public void LastHandDrag()
+    {
+        lastHandDrag.SetActive(true);
+    }
     private void Start()
     {
         InitiateStartScreen();
@@ -80,8 +143,13 @@
     private void Update()
     {
         sunRays.Rotate(0, 0, rotSpeed * Time.deltaTime);
+        lastSunRays.Rotate(0, 0, rotSpeed * Time.deltaTime);
 
-      
+        if (playSunAnim && playAnimOnce)
+        {
+            _animator.SetTrigger("LastLevel");
+            playAnimOnce = false;
+        }
     }
 
     public void InitiateStartScreen()
@@ -122,7 +190,9 @@
             mute.gameObject.SetActive(true);
             unMute.transform.localScale = Vector3.zero;
             mute.transform.localScale = Vector3.zero;
-            mute.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InOutFlash); 
+            mute.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InOutFlash);
+            AudioManager.instance.audioSource.volume = 0f;
+            AudioManager.instance.audioSource_BG.volume = 0f;
         }
         else
         {
@@ -131,6 +201,8 @@
             mute.transform.localScale = Vector3.zero;
             unMute.transform.localScale = Vector3.zero;
             unMute.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InOutFlash); 
+            AudioManager.instance.audioSource.volume = 0.4f;
+            AudioManager.instance.audioSource_BG.volume = .005f;
         }
     }
  // After Start Button Click ----
@@ -279,6 +351,7 @@
     void HeatIcon()
     {
         heat.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InOutFlash);
+        DradIndicator.SetActive(true);
     }
 
     // Video Level Start Here
@@ -287,8 +360,18 @@
     public void ClickedContinueToVideoLevel()
     {
         videoLevel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InOutFlash);
+        Invoke(nameof(PhotoSynthesisText),.25f);
         cloudGenerator.SetActive(true);
         sunflower.SetActive(true);
     }
-    
+
+    public void PhotoSynthesisText()
+    {
+        photosynthesis_Text.localScale = Vector3.zero;
+        photosynthesis_Text.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InOutFlash);
+    }
+    public void SunAnimTrue()
+    {
+        playSunAnim = true;
+    }
 }

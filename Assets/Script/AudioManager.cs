@@ -4,10 +4,13 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] public AudioSource audioSource_BG;
+    [SerializeField] public AudioSource audioSource;
     [SerializeField] private AudioClip introClip;
     [SerializeField] AudioClip chooseClip;
     [SerializeField] AudioClip niceWorkClip;
+    [SerializeField] AudioClip lastDialogue;
+    [SerializeField] private AudioClip lastClip;
    
 
     private void Awake()
@@ -38,5 +41,15 @@ public class AudioManager : MonoBehaviour
            
         }
         audioSource.PlayOneShot(clip);
+    }
+
+    public void PlayLastDialogue()
+    {
+        audioSource.PlayOneShot(lastDialogue);
+    }
+
+    public void LastClip()
+    {
+        audioSource.PlayOneShot(lastClip);
     }
 }
