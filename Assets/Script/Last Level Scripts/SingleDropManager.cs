@@ -36,6 +36,7 @@ public class SingleDropManager : MonoBehaviour
     public void ClickedSummaryBtn()
     {
         summaryPanel.transform.DOScale(Vector3.one, .25f).SetEase(Ease.OutBack);
+        AudioManager.instance.PlayWellDone();
     }
 
     public void CloseSummaryPanel()

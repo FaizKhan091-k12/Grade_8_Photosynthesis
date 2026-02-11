@@ -14709,7 +14709,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Start Experiment
+  m_text: 'Start '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 481e83bdcdc33424aae8af0607c176cf, type: 2}
   m_sharedMaterial: {fileID: 8650626971645989564, guid: 481e83bdcdc33424aae8af0607c176cf, type: 2}
@@ -14736,8 +14736,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
-  m_fontSizeBase: 55
+  m_fontSize: 75
+  m_fontSizeBase: 75
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -17605,7 +17605,7 @@ RectTransform:
   m_GameObject: {fileID: 828161561}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 149553410}
@@ -25433,8 +25433,9 @@ GameObject:
   - component: {fileID: 1191726224}
   - component: {fileID: 1191726223}
   - component: {fileID: 1191726222}
+  - component: {fileID: 1191726225}
   m_Layer: 5
-  m_Name: Procedural Image
+  m_Name: Replay Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25513,6 +25514,45 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191726220}
   m_CullTransparentMesh: 1
+--- !u!114 &1191726225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191726220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65a5001996a28c148b5631774a6571c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverClickEffect
+  hoverScale: 1.08
+  hoverDuration: 0.12
+  useUnscaledTime: 1
+  clickScale: 1.15
+  clickDuration: 0.18
+  clickAlwaysPlays: 0
+  onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
+  onClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 145748594}
+        m_TargetAssemblyTypeName: SceneManager_S, Assembly-CSharp
+        m_MethodName: ReloadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1201329092
 GameObject:
   m_ObjectHideFlags: 0
@@ -29198,7 +29238,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 180, y: 180}
-  m_Spacing: {x: 50, y: 50}
+  m_Spacing: {x: 100, y: 50}
   m_Constraint: 1
   m_ConstraintCount: 6
 --- !u!1 &1343986570
@@ -36736,7 +36776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1637695825
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36753,10 +36793,10 @@ RectTransform:
   - {fileID: 694509258}
   m_Father: {fileID: 1343951451}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1240, y: -90}
+  m_SizeDelta: {x: 180, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1637695826
 MonoBehaviour:
@@ -39803,6 +39843,7 @@ MonoBehaviour:
   niceWorkClip: {fileID: 8300000, guid: 5584fb257412f26469401b077cd1ea58, type: 3}
   lastDialogue: {fileID: 8300000, guid: 15cf42815526a4c4d9735d6c788eb655, type: 3}
   lastClip: {fileID: 8300000, guid: d9ffe43f76c39754a84de06b69175fcd, type: 3}
+  wellDone: {fileID: 8300000, guid: f8c7c41ee8ce8464ab576bf9484f5f3b, type: 3}
 --- !u!1 &1753639566
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioClip niceWorkClip;
     [SerializeField] AudioClip lastDialogue;
     [SerializeField] private AudioClip lastClip;
+    [SerializeField] private AudioClip wellDone;
    
 
     private void Awake()
@@ -51,5 +52,14 @@ public class AudioManager : MonoBehaviour
     public void LastClip()
     {
         audioSource.PlayOneShot(lastClip);
+    }
+
+    public void PlayWellDone()
+    {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+        audioSource.PlayOneShot(wellDone);
     }
 }

@@ -4,7 +4,7 @@ public class SceneManager_S : MonoBehaviour
 {
  public void ReloadScene()
  {
-  SceneManager.LoadScene("SceneName");
+  SceneManager.LoadScene("Photosythesis_Grade_8");
 
  }
 }

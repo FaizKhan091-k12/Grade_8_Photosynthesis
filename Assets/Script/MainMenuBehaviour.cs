@@ -201,8 +201,8 @@
             mute.transform.localScale = Vector3.zero;
             unMute.transform.localScale = Vector3.zero;
             unMute.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InOutFlash); 
-            AudioManager.instance.audioSource.volume = 0.4f;
-            AudioManager.instance.audioSource_BG.volume = .005f;
+            AudioManager.instance.audioSource.volume = 1f;
+            AudioManager.instance.audioSource_BG.volume = .3f;
         }
     }
  // After Start Button Click ----
