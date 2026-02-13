@@ -33,7 +33,7 @@ public class LeafSlotManager : MonoBehaviour
 
     public void PlayLevelClear()
     {  
-        typewriterTMP.TypeText("Nice work! Now watch how these materials move to make food.",12f,
+        typewriterTMP.TypeText("Now let’s see how these reactants move through the plant to complete photosynthesis.",15f,
             ()=>continueBtnToVideoLevel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InOutFlash));
         AudioManager.instance.PlayNiceWork();
         

@@ -3,6 +3,7 @@
     using UnityEngine;
     using DG.Tweening;
     using TMPro;
+    using Unity.VisualScripting;
     using UnityEngine.UI.ProceduralImage;
 
     public class MainMenuBehaviour : MonoBehaviour
@@ -95,8 +96,11 @@
         }
         lastDialogue.SetActive(false);
         lastHandDrag.SetActive(false);
+        
+      
     }
 
+   
     public void StartLabels()
     {
         StartCoroutine(LastLabelsDragger());
@@ -138,6 +142,8 @@
     private void Start()
     {
         InitiateStartScreen();
+        AudioManager.instance.audioSource.volume = 1f;
+        AudioManager.instance.audioSource_BG.volume = .1f;
     }
 
     private void Update()
@@ -202,8 +208,10 @@
             unMute.transform.localScale = Vector3.zero;
             unMute.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InOutFlash); 
             AudioManager.instance.audioSource.volume = 1f;
-            AudioManager.instance.audioSource_BG.volume = .3f;
+            AudioManager.instance.audioSource_BG.volume = .1f;
+          
         }
+       
     }
  // After Start Button Click ----
     public void StartExperimentClick()
@@ -319,7 +327,7 @@
     public void DragLevelDialogue()
     {
         dialogue_Container.SetActive(true);
-        typewriterTMP.TypeText("Choose the materials that plants use to start photosynthesis.",13f,()=>OxygenIcon());
+        typewriterTMP.TypeText("Choose the reactants that plants use to start photosynthesis.",13f,()=>OxygenIcon());
         AudioManager.instance.PlayChoose();
     }
 

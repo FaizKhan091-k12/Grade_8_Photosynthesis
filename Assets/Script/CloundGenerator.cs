@@ -9,14 +9,14 @@ public class CloundGenerator : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating(nameof(GenerateClouds), 1, UnityEngine.Random.Range(5 , 15));
+        InvokeRepeating(nameof(GenerateClouds), 1, UnityEngine.Random.Range(10 , 20));
     }
 
     public void GenerateClouds()
     {
         int randomeCloud = UnityEngine.Random.Range(0, clouds.Length);
         GameObject cloudsClone = Instantiate(clouds[randomeCloud], new Vector3(clonePos.position.x,
-        UnityEngine.Random.Range(clonePos.position.y,1),clonePos.position.z), Quaternion.identity);
+        UnityEngine.Random.Range(clonePos.position.y,clonePos.position.y - 20f),clonePos.position.z), Quaternion.identity);
         cloudsClone.transform.SetParent(clonePos);
 
         float randomCloudScale = Random.Range(5, 15);
